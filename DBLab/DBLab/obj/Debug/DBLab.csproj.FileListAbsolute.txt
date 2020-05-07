@@ -1,0 +1,12 @@
+C:\Users\Tobias\OneDrive\Studier\Databaser\labb2\DBCourseLabFiles-v1_3\DBLab\DBLab\bin\Debug\DBLab.exe
+C:\Users\Tobias\OneDrive\Studier\Databaser\labb2\DBCourseLabFiles-v1_3\DBLab\DBLab\bin\Debug\DBLab.pdb
+C:\Users\Tobias\OneDrive\Studier\Databaser\labb2\DBCourseLabFiles-v1_3\DBLab\DBLab\bin\Debug\DBLabControllers.dll
+C:\Users\Tobias\OneDrive\Studier\Databaser\labb2\DBCourseLabFiles-v1_3\DBLab\DBLab\obj\Debug\DBLab.csprojAssemblyReference.cache
+C:\Users\Tobias\OneDrive\Studier\Databaser\labb2\DBCourseLabFiles-v1_3\DBLab\DBLab\obj\Debug\DBLabs.AddStudentControl.resources
+C:\Users\Tobias\OneDrive\Studier\Databaser\labb2\DBCourseLabFiles-v1_3\DBLab\DBLab\obj\Debug\DBLabs.ApplicationForm.resources
+C:\Users\Tobias\OneDrive\Studier\Databaser\labb2\DBCourseLabFiles-v1_3\DBLab\DBLab\obj\Debug\DBLab.Properties.Resources.resources
+C:\Users\Tobias\OneDrive\Studier\Databaser\labb2\DBCourseLabFiles-v1_3\DBLab\DBLab\obj\Debug\DBLab.csproj.GenerateResource.cache
+C:\Users\Tobias\OneDrive\Studier\Databaser\labb2\DBCourseLabFiles-v1_3\DBLab\DBLab\obj\Debug\DBLab.csproj.CoreCompileInputs.cache
+C:\Users\Tobias\OneDrive\Studier\Databaser\labb2\DBCourseLabFiles-v1_3\DBLab\DBLab\obj\Debug\DBLab.csproj.CopyComplete
+C:\Users\Tobias\OneDrive\Studier\Databaser\labb2\DBCourseLabFiles-v1_3\DBLab\DBLab\obj\Debug\DBLab.exe
+C:\Users\Tobias\OneDrive\Studier\Databaser\labb2\DBCourseLabFiles-v1_3\DBLab\DBLab\obj\Debug\DBLab.pdb
