@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.AddStudentGB = new System.Windows.Forms.GroupBox();
+            this.City = new System.Windows.Forms.TextBox();
             this.Birthdate = new System.Windows.Forms.DateTimePicker();
             this.Submitbutton = new System.Windows.Forms.Button();
             this.Number = new System.Windows.Forms.TextBox();
@@ -47,19 +48,19 @@
             this.FirstNamelabel = new System.Windows.Forms.Label();
             this.StudentIDlabel = new System.Windows.Forms.Label();
             this.Country = new System.Windows.Forms.TextBox();
-            this.City = new System.Windows.Forms.TextBox();
             this.ZipCode = new System.Windows.Forms.TextBox();
             this.StreetAdress = new System.Windows.Forms.TextBox();
+            this.Gender = new System.Windows.Forms.TextBox();
             this.LastName = new System.Windows.Forms.TextBox();
             this.FirstName = new System.Windows.Forms.TextBox();
             this.StudentID = new System.Windows.Forms.TextBox();
             this.AddNumberButton = new System.Windows.Forms.Button();
-            this.Gender = new System.Windows.Forms.TextBox();
             this.AddStudentGB.SuspendLayout();
             this.SuspendLayout();
             // 
             // AddStudentGB
             // 
+            this.AddStudentGB.Controls.Add(this.City);
             this.AddStudentGB.Controls.Add(this.Birthdate);
             this.AddStudentGB.Controls.Add(this.Submitbutton);
             this.AddStudentGB.Controls.Add(this.Number);
@@ -78,7 +79,6 @@
             this.AddStudentGB.Controls.Add(this.FirstNamelabel);
             this.AddStudentGB.Controls.Add(this.StudentIDlabel);
             this.AddStudentGB.Controls.Add(this.Country);
-            this.AddStudentGB.Controls.Add(this.City);
             this.AddStudentGB.Controls.Add(this.ZipCode);
             this.AddStudentGB.Controls.Add(this.StreetAdress);
             this.AddStudentGB.Controls.Add(this.Gender);
@@ -92,7 +92,13 @@
             this.AddStudentGB.TabIndex = 54;
             this.AddStudentGB.TabStop = false;
             this.AddStudentGB.Text = "Add Student";
-            this.AddStudentGB.Enter += new System.EventHandler(this.AddStudentGB_Enter);
+            // 
+            // City
+            // 
+            this.City.Location = new System.Drawing.Point(180, 188);
+            this.City.Name = "City";
+            this.City.Size = new System.Drawing.Size(205, 20);
+            this.City.TabIndex = 6;
             // 
             // Birthdate
             // 
@@ -100,14 +106,14 @@
             this.Birthdate.Location = new System.Drawing.Point(180, 240);
             this.Birthdate.Name = "Birthdate";
             this.Birthdate.Size = new System.Drawing.Size(205, 20);
-            this.Birthdate.TabIndex = 6;
+            this.Birthdate.TabIndex = 8;
             // 
             // Submitbutton
             // 
             this.Submitbutton.Location = new System.Drawing.Point(180, 350);
             this.Submitbutton.Name = "Submitbutton";
             this.Submitbutton.Size = new System.Drawing.Size(124, 41);
-            this.Submitbutton.TabIndex = 5;
+            this.Submitbutton.TabIndex = 13;
             this.Submitbutton.Text = "Submit";
             this.Submitbutton.UseVisualStyleBackColor = true;
             this.Submitbutton.Click += new System.EventHandler(this.SubmitButton_Click);
@@ -117,7 +123,7 @@
             this.Number.Location = new System.Drawing.Point(180, 297);
             this.Number.Name = "Number";
             this.Number.Size = new System.Drawing.Size(205, 20);
-            this.Number.TabIndex = 4;
+            this.Number.TabIndex = 10;
             // 
             // PhoneType
             // 
@@ -125,7 +131,7 @@
             this.PhoneType.Location = new System.Drawing.Point(180, 323);
             this.PhoneType.Name = "PhoneType";
             this.PhoneType.Size = new System.Drawing.Size(205, 21);
-            this.PhoneType.TabIndex = 3;
+            this.PhoneType.TabIndex = 11;
             // 
             // StudentType
             // 
@@ -133,7 +139,7 @@
             this.StudentType.Location = new System.Drawing.Point(180, 266);
             this.StudentType.Name = "StudentType";
             this.StudentType.Size = new System.Drawing.Size(205, 21);
-            this.StudentType.TabIndex = 3;
+            this.StudentType.TabIndex = 9;
             // 
             // PhoneTypelabel
             // 
@@ -260,35 +266,35 @@
             this.Country.Location = new System.Drawing.Point(180, 213);
             this.Country.Name = "Country";
             this.Country.Size = new System.Drawing.Size(205, 20);
-            this.Country.TabIndex = 1;
-            // 
-            // City
-            // 
-            this.City.Location = new System.Drawing.Point(180, 187);
-            this.City.Name = "City";
-            this.City.Size = new System.Drawing.Size(205, 20);
-            this.City.TabIndex = 1;
+            this.Country.TabIndex = 8;
             // 
             // ZipCode
             // 
             this.ZipCode.Location = new System.Drawing.Point(180, 161);
             this.ZipCode.Name = "ZipCode";
             this.ZipCode.Size = new System.Drawing.Size(205, 20);
-            this.ZipCode.TabIndex = 1;
+            this.ZipCode.TabIndex = 5;
             // 
             // StreetAdress
             // 
             this.StreetAdress.Location = new System.Drawing.Point(180, 135);
             this.StreetAdress.Name = "StreetAdress";
             this.StreetAdress.Size = new System.Drawing.Size(205, 20);
-            this.StreetAdress.TabIndex = 1;
+            this.StreetAdress.TabIndex = 4;
+            // 
+            // Gender
+            // 
+            this.Gender.Location = new System.Drawing.Point(180, 109);
+            this.Gender.Name = "Gender";
+            this.Gender.Size = new System.Drawing.Size(205, 20);
+            this.Gender.TabIndex = 3;
             // 
             // LastName
             // 
             this.LastName.Location = new System.Drawing.Point(180, 83);
             this.LastName.Name = "LastName";
             this.LastName.Size = new System.Drawing.Size(205, 20);
-            this.LastName.TabIndex = 1;
+            this.LastName.TabIndex = 2;
             // 
             // FirstName
             // 
@@ -302,24 +308,17 @@
             this.StudentID.Location = new System.Drawing.Point(180, 31);
             this.StudentID.Name = "StudentID";
             this.StudentID.Size = new System.Drawing.Size(205, 20);
-            this.StudentID.TabIndex = 1;
+            this.StudentID.TabIndex = 0;
             // 
             // AddNumberButton
             // 
             this.AddNumberButton.Location = new System.Drawing.Point(388, 297);
             this.AddNumberButton.Name = "AddNumberButton";
             this.AddNumberButton.Size = new System.Drawing.Size(123, 47);
-            this.AddNumberButton.TabIndex = 0;
+            this.AddNumberButton.TabIndex = 12;
             this.AddNumberButton.Text = "Add";
             this.AddNumberButton.UseVisualStyleBackColor = true;
             this.AddNumberButton.Click += new System.EventHandler(this.AddNumberButton_Click);
-            // 
-            // Gender
-            // 
-            this.Gender.Location = new System.Drawing.Point(180, 109);
-            this.Gender.Name = "Gender";
-            this.Gender.Size = new System.Drawing.Size(205, 20);
-            this.Gender.TabIndex = 1;
             // 
             // AddStudentControl
             // 
@@ -340,7 +339,6 @@
         private System.Windows.Forms.TextBox FirstName;
         private System.Windows.Forms.TextBox LastName;
         private System.Windows.Forms.TextBox ZipCode;
-        private System.Windows.Forms.TextBox City;
         private System.Windows.Forms.TextBox Country;
 
         private System.Windows.Forms.GroupBox AddStudentGB;
@@ -364,5 +362,6 @@
         private System.Windows.Forms.Label FirstNamelabel;
         private System.Windows.Forms.DateTimePicker Birthdate;
         private System.Windows.Forms.TextBox Gender;
+        private System.Windows.Forms.TextBox City;
     }
 }

@@ -177,7 +177,6 @@
             this.Text = "IDT Management System";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
@@ -194,7 +193,6 @@
         private DBLabsDLL.StaffGridControl staffGridControl1;
         private DBLabsDLL.ViewCourseControl viewCourseControl1;
         private DBLabsDLL.AddCourseControl addCourseControl1;
-
 
 
 

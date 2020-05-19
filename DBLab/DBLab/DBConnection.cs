@@ -31,7 +31,7 @@ namespace DBLabs
             try
             {
                 connectionString = $"Data Source={Datasource};" + $"Initial Catalog={OurDb};" + $"User Id={username};" + $"Password={password};";
-            this.con = new SqlConnection(connectionString);
+                this.con = new SqlConnection(connectionString);
             
                 Console.WriteLine("Connection successfully established");
                 return true;
@@ -89,18 +89,19 @@ namespace DBLabs
         public bool SubmitStudent(string studentId, string firstName, string lastName, string gender, 
             string streetAdress, string zipCode, string city, string country, string birthdate, string studentType)
         {
-            con.Open();
 
             if (Phonenumbers.Count == 0 || Phonetypes.Count == 0)
             {
                 MessageBox.Show("No number or type entered!");
+                return false;
 
             }
-            else if (Phonenumbers.Count != Phonetypes.Count)
+            if (Phonenumbers.Count != Phonetypes.Count)
             {
                 MessageBox.Show("You must enter both number and type!");
+                return false;
             }
-
+            con.Open();
             SqlDataAdapter daAddStudent = new SqlDataAdapter("addStudents", con);
             daAddStudent.SelectCommand.CommandType = CommandType.StoredProcedure;
             daAddStudent.SelectCommand.Parameters.Add("@StudentID", SqlDbType.VarChar).Value = studentId;
@@ -124,11 +125,13 @@ namespace DBLabs
             {
                 Console.WriteLine(e);
                 MessageBox.Show("Error, something went wrong...");
+                con.Close();
                 return false;
             }
             if ((int)studentSuccess.Value == 1)
             {
                 MessageBox.Show("Error, something went wrong...");
+                con.Close();
                 return false;
             }
             MessageBox.Show("Student added");
@@ -153,6 +156,7 @@ namespace DBLabs
                 {
                     Console.WriteLine(e);
                     MessageBox.Show("Error, numbers not added...");
+                    con.Close();
                     return false;
                 }
             }
@@ -160,33 +164,19 @@ namespace DBLabs
 
             con.Close();
             return true;
-
         }
 
         public bool AddNumber(string number, string type)
         {
-            if (number.Length > 15 || number.Length <= 0)
+            if (number.Length > 15 || number.Length <= 0 || type.Length <= 0)
             {
-                Console.WriteLine("Invalid phonenumber");
+                MessageBox.Show("Invalid phonenumber");
                 return false;
             }
             Phonenumbers.Add(number);
             Phonetypes.Add(type);
             return true;
         }
-
-
-
-        /*
-         --------------------------------------------------------------------------------------------
-         IMPLEMENTATION TO BE USED IN LAB 2. 
-         --------------------------------------------------------------------------------------------
-        */
-
-        // Here you need to implement your own methods that call the stored procedures 
-        // addStudent and addStudentPhoneNo
-
-
 
 
         /*
@@ -285,6 +275,10 @@ namespace DBLabs
          *              1           Course added
          *              Any other   Error
          */
+
+        ////////////
+        /// ////////////
+        /// ////////////
         public override int addCourse(string cc, string name, double credits, string responsible)
         {
             return 1;

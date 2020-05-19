@@ -19,7 +19,7 @@ namespace DBLabs
             InitializeComponent();
             this.dbconn = dbconn;
             DBLabsDLL.DBConnectionBase dbconn2 = this.dbconn;
-            DBLabsDLL.LoginForm login =new DBLabsDLL.LoginForm(ref dbconn2);
+            DBLabsDLL.LoginForm login = new DBLabsDLL.LoginForm(ref dbconn2);
             login.ShowDialog();
             addStudentControl1.AddStudentControlSettings(ref dbconn);
             addStudentControl1.Visible = false;

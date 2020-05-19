@@ -69,25 +69,10 @@ namespace DBLabs
             {
                 StudentType.Text = "No data found";
             }
-
-
-
         }
         public void ResetAddStudentControl()
         {
-            ///// ADD CODE HERE TO EMPTY ANY FIELDS WHEN SUBMIT IS PRESSED
-
-
-            /*
-             * This function contains all code that needs to be executed when the control is reloaded
-             * 
-             * You need to edit this code. 
-             * Example: Emptying textboxes and gridviews
-             * 
-             */
-
-            //Birthdate
-
+  
             StudentID.Clear();
             LastName.Clear();
             FirstName.Clear();
@@ -99,13 +84,8 @@ namespace DBLabs
             ZipCode.Clear();
             StreetAdress.Clear();
             Gender.Clear();
-    }
-
-
-        private void AddStudentGB_Enter(object sender, EventArgs e)
-        {
-            
         }
+
 
         private void SubmitButton_Click(object sender, EventArgs e)
         {
@@ -114,7 +94,6 @@ namespace DBLabs
             {
                 ResetAddStudentControl();
             }
-
         }
 
         private void AddNumberButton_Click(object sender, EventArgs e)
@@ -123,5 +102,6 @@ namespace DBLabs
             PhoneType.SelectedIndex = -1;
             Number.Clear();
         }
+
     }
 }
