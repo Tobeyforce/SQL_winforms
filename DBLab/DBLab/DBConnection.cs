@@ -99,6 +99,7 @@ namespace DBLabs
             if (Phonenumbers.Count != Phonetypes.Count)
             {
                 MessageBox.Show("You must enter both number and type!");
+                ClearNumbers();
                 return false;
             }
             con.Open();
@@ -125,12 +126,14 @@ namespace DBLabs
             {
                 Console.WriteLine(e);
                 MessageBox.Show("Error, something went wrong...");
+                ClearNumbers();
                 con.Close();
                 return false;
             }
             if ((int)studentSuccess.Value == 1)
             {
                 MessageBox.Show("Error, something went wrong...");
+                ClearNumbers();
                 con.Close();
                 return false;
             }
@@ -156,6 +159,7 @@ namespace DBLabs
                 {
                     Console.WriteLine(e);
                     MessageBox.Show("Error, numbers not added...");
+                    ClearNumbers();
                     con.Close();
                     return false;
                 }
@@ -163,6 +167,7 @@ namespace DBLabs
             MessageBox.Show("Numbers added");
 
             con.Close();
+            ClearNumbers();
             return true;
         }
 
@@ -173,9 +178,21 @@ namespace DBLabs
                 MessageBox.Show("Invalid phonenumber");
                 return false;
             }
+
+            if (Phonenumbers.Contains(number))
+            {
+                MessageBox.Show("Phonenumber already exists");
+                return false;
+            }
             Phonenumbers.Add(number);
             Phonetypes.Add(type);
             return true;
+        }
+
+        public void ClearNumbers()
+        {
+            Phonenumbers.Clear();
+            Phonetypes.Clear();
         }
 
 

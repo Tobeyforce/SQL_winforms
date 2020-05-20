@@ -266,7 +266,7 @@
             this.Country.Location = new System.Drawing.Point(180, 213);
             this.Country.Name = "Country";
             this.Country.Size = new System.Drawing.Size(205, 20);
-            this.Country.TabIndex = 8;
+            this.Country.TabIndex = 7;
             // 
             // ZipCode
             // 
