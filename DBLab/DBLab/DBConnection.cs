@@ -336,7 +336,7 @@ namespace DBLabs
             try
             {
                 con.Open();
-                string query = "select * from vWGetStudents";
+                string query = "select * from VwGetStudents";
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -364,13 +364,22 @@ namespace DBLabs
          */
         public override DataTable getStaff()
         {
-            //Dummy code - Remove!
-            //Please note that you do not use DataTables like this at all when you are using a database!!
-            DataTable dt = new DataTable();
-            dt.Columns.Add("pnr");
-            dt.Columns.Add("fullname");
-            dt.Rows.Add("111111-1111", "Test Testson");
-            return dt;
+            try
+            {
+                con.Open();
+                string query = "select * from VwGetStaff";
+                SqlDataAdapter da = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                con.Close();
+                return dt;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("CATCHBLOCK");
+                return null;
+            }
         }
 
         /*
@@ -388,11 +397,22 @@ namespace DBLabs
         {
             //Dummy code - Remove!
             //Please note that you do not use DataTables like this at all when you are using a database!!
-            DataTable dt = new DataTable();
-            dt.Columns.Add("StudentID");
-            dt.Columns.Add("fullname");
-            dt.Rows.Add("ssn11001", "Stud Studman");
-            return dt;
+            try
+            {
+                con.Open();
+                string query = "select * from VwGetLabasses";
+                SqlDataAdapter da = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                con.Close();
+                return dt;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("CATCHBLOCK");
+                return null;
+            }
         }
 
         /*
@@ -410,15 +430,22 @@ namespace DBLabs
          */
         public override DataTable getCourses()
         {
-            //Dummy code - Remove!
-            //Please note that you do not use DataTables like this at all when you are using a database!!
-            DataTable dt = new DataTable();
-            dt.Columns.Add("coursecode");
-            dt.Columns.Add("name");
-            dt.Columns.Add("credits");
-            dt.Columns.Add("courseresponsible");
-            dt.Rows.Add("DVA234", "Databaser", 7.5, "111111-1111");
-            return dt;
+            try
+            {
+                con.Open();
+                string query = "select * from VwGetCourses";
+                SqlDataAdapter da = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                con.Close();
+                return dt;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("CATCHBLOCK");
+                return null;
+            }
         }
         /*
          * Returns the salary costs for a course instance based on the teacher and lab assistent staffing.
