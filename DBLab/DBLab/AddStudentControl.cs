@@ -99,8 +99,8 @@ namespace DBLabs
         private void AddNumberButton_Click(object sender, EventArgs e)
         {
             dbconn.AddNumber(Number.Text, PhoneType.Text);
-            PhoneType.SelectedIndex = -1;
             Number.Clear();
+            PhoneType.SelectedIndex = -1;
         }
 
     }

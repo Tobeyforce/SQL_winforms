@@ -42,8 +42,7 @@ namespace DBLabs
                 return false;
             }
 
-            //DVA234_2020_G<nr>_db
-            //Tobiaslucas123123
+            //DVA234_2020_G23
         }
 
 
@@ -93,6 +92,7 @@ namespace DBLabs
             if (Phonenumbers.Count == 0 || Phonetypes.Count == 0)
             {
                 MessageBox.Show("No number or type entered!");
+                ClearNumbers();
                 return false;
 
             }
@@ -115,6 +115,7 @@ namespace DBLabs
             daAddStudent.SelectCommand.Parameters.Add("@Country", SqlDbType.VarChar).Value = country;
             daAddStudent.SelectCommand.Parameters.Add("@Birthdate", SqlDbType.VarChar).Value = birthdate;
             daAddStudent.SelectCommand.Parameters.Add("@StudentType", SqlDbType.VarChar).Value = studentType;
+            //TO BE ABLE TO RECEIVE SUCCESS OUTPUT
             SqlParameter studentSuccess = new SqlParameter();
             studentSuccess.Direction = ParameterDirection.ReturnValue;
             daAddStudent.SelectCommand.Parameters.Add(studentSuccess);
@@ -332,22 +333,22 @@ namespace DBLabs
         {
             //Dummy code - Remove!
             //Please note that you do not use DataTables like this at all when you are using a database!!
-            DataTable dt = new DataTable();
-            dt.Columns.Add("StudentID");
-            dt.Columns.Add("FirstName");
-            dt.Columns.Add("LastName");
-            dt.Columns.Add("Gender");
-            dt.Columns.Add("Streetadress");
-            dt.Columns.Add("ZipCode");
-            dt.Columns.Add("Birthdate");
-            dt.Columns.Add("StudentType");
-            dt.Columns.Add("City");
-            dt.Columns.Add("Country");
-            dt.Columns.Add("program");
-            dt.Columns.Add("PgmStartYear");
-            dt.Columns.Add("credits");
-            dt.Rows.Add("ssn11001", "Stud", "Studman", "Male", "StudentRoad 1", "773 33", "1985-11-20 00:00:00", "Program Student", "Västerås", "Sweden", "Datavetenskapliga programmet", 2011, 15);
-            return dt;
+            try
+            {
+                con.Open();
+                string query = "select * from vWGetStudents";
+                SqlDataAdapter da = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                con.Close();
+                return dt;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("CATCHBLOCK");
+                return null;
+            }
         }
 
         /*
