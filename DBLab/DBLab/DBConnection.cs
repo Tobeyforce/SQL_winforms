@@ -221,6 +221,35 @@ namespace DBLabs
          */
         public override int addPreReq(string cc, string preReqcc)
         {
+            con.Open();
+            SqlDataAdapter da = new SqlDataAdapter("spAddPreReq", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Add("@cc", SqlDbType.VarChar).Value = cc;
+            da.SelectCommand.Parameters.Add("@preReqcc", SqlDbType.VarChar).Value = preReqcc;
+            SqlParameter preReqSuccess = new SqlParameter();
+            preReqSuccess.Direction = ParameterDirection.ReturnValue;
+            da.SelectCommand.Parameters.Add(preReqSuccess);
+            try
+            {
+                da.SelectCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                MessageBox.Show("Error, something went wrong...");
+                ClearNumbers();
+                con.Close();
+                return 0;
+            }
+            if ((int)preReqSuccess.Value == 1)
+            {
+                MessageBox.Show("Error, something went wrong...");
+                ClearNumbers();
+                con.Close();
+                return 0;
+            }
+            MessageBox.Show("Student added");
+            con.Close();
             return 1;
         }
 
@@ -465,18 +494,17 @@ namespace DBLabs
          */
         public override int getCourseCost(string cc, int year, int period)
         {
-            var com = new SqlCommand($"Select * from dbo.Get_Course_Cost({cc}, {year}, {period})");
+            //SCALAR FUNCTION THAT RETURNS ONLY ONE VALUE
 
+            var functionquery = $"Select dbo.Get_Course_Cost('{cc}', {year}, {period})";
+            SqlCommand com = new SqlCommand(functionquery, con);
             con.Open();
             com.Parameters.Add("@cc", SqlDbType.VarChar).Value = cc;
             com.Parameters.Add("@year", SqlDbType.Int).Value = year;
             com.Parameters.Add("@period", SqlDbType.Int).Value = period;
-
-            //SqlParameter ccParameter = new SqlParameter("@cc", SqlDbType.Int);
-            //SqlParameter yearParameter = new SqlParameter("@cc", SqlDbType.Int);
-            //SqlParameter  = new SqlParameter("@cc", SqlDbType.Int);
-
             int cost = (int)com.ExecuteScalar();
+            con.Close();
+
             return cost;
         }
 
@@ -494,6 +522,8 @@ namespace DBLabs
          */
         public override DataTable getCourseStaffing(string cc, string year, string period)
         {
+            //Table inline function
+
             con.Open();
             var functionquery = $"SELECT * FROM Get_Course_Staffing('{cc}', '{year}', '{period}')";
             SqlCommand com = new SqlCommand(functionquery, con);
@@ -521,6 +551,8 @@ namespace DBLabs
          */
         public override DataTable getStudentRecord(string studId)
         {
+            //Table inline function
+
             con.Open();
             var functionquery = $"SELECT * FROM Get_Student_Records({studId})";
             SqlCommand com = new SqlCommand(functionquery, con);
@@ -533,16 +565,6 @@ namespace DBLabs
             con.Close();
             return datatable;
 
-
-
-
-            //Kurskod,
-            //Kursnamn,
-            //Antal poäng
-            //Kurstillfälle(år, period)
-            //Avslutad(Texten ”JA” skall visas om kursen är avslutad annars lämnas
-            //denna tom)
-            //Betyg
         }
 
         /*
@@ -557,7 +579,7 @@ namespace DBLabs
          */
         public override DataTable getPreReqs(string cc)
         {
-
+            //Table inline function
             con.Open();
             var functionquery = $"SELECT * FROM Get_Course_Prereq('{cc}')";
             SqlCommand com = new SqlCommand(functionquery, con);
@@ -586,15 +608,18 @@ namespace DBLabs
          */
         public override DataTable getInstances(string cc)
         {
+            //Table inline function
+            con.Open();
+            var functionquery = $"SELECT * FROM Get_Course_Instance('{cc}')";
+            SqlCommand com = new SqlCommand(functionquery, con);
+            com.CommandType = CommandType.Text;
+            com.Parameters.Add("@cc", SqlDbType.VarChar).Value = cc;
 
-            //Dummy code - Remove!
-            //Please note that you do not use DataTables like this at all when you are using a database!!
-            DataTable dt = new DataTable();
-            dt.Columns.Add("year");
-            dt.Columns.Add("period");
-            dt.Columns.Add("instance");
-            dt.Rows.Add(2012, 4, "2012 p4");
-            return dt;
+            SqlDataReader datareader = com.ExecuteReader();
+            DataTable datatable = new DataTable();
+            datatable.Load(datareader);
+            con.Close();
+            return datatable;
         }
 
         /*
@@ -610,13 +635,19 @@ namespace DBLabs
         */
         public override DataTable getStudentPhoneNumbers(string studId)
         {
-            //Dummy code - Remove!
-            //Please note that you do not use DataTables like this at all when you are using a database!!
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Type");
-            dt.Columns.Add("Number");
-            dt.Rows.Add("Home", "021-121212");
-            return dt;
+            //Table inline function
+            con.Open();
+            var functionquery = $"SELECT * FROM Get_Student_PhoneNrs('{studId}')";
+            SqlCommand com = new SqlCommand(functionquery, con);
+            com.CommandType = CommandType.Text;
+            com.Parameters.Add("@StudID", SqlDbType.VarChar).Value = studId;
+
+            SqlDataReader datareader = com.ExecuteReader();
+            DataTable datatable = new DataTable();
+            datatable.Load(datareader);
+            con.Close();
+            return datatable;
+
         }
 
         /*
