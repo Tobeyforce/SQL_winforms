@@ -226,9 +226,9 @@ namespace DBLabs
             da.SelectCommand.CommandType = CommandType.StoredProcedure;
             da.SelectCommand.Parameters.Add("@cc", SqlDbType.VarChar).Value = cc;
             da.SelectCommand.Parameters.Add("@preReqcc", SqlDbType.VarChar).Value = preReqcc;
-            SqlParameter preReqSuccess = new SqlParameter();
-            preReqSuccess.Direction = ParameterDirection.ReturnValue;
-            da.SelectCommand.Parameters.Add(preReqSuccess);
+            SqlParameter success = new SqlParameter();
+            success.Direction = ParameterDirection.ReturnValue;
+            da.SelectCommand.Parameters.Add(success);
             try
             {
                 da.SelectCommand.ExecuteNonQuery();
@@ -241,14 +241,14 @@ namespace DBLabs
                 con.Close();
                 return 0;
             }
-            if ((int)preReqSuccess.Value == 1)
+            if ((int)success.Value == 1)
             {
                 MessageBox.Show("Error, something went wrong...");
                 ClearNumbers();
                 con.Close();
                 return 0;
             }
-            MessageBox.Show("Student added");
+            MessageBox.Show("Prerequisite course " + preReqcc + " added for " + cc);
             con.Close();
             return 1;
         }
@@ -267,6 +267,37 @@ namespace DBLabs
          */
         public override int addInstance(string cc, int year, int period)
         {
+            con.Open();
+            SqlDataAdapter da = new SqlDataAdapter("spAddCourseInstance", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Add("@cc", SqlDbType.VarChar).Value = cc;
+            da.SelectCommand.Parameters.Add("@year", SqlDbType.Int).Value = year;
+            da.SelectCommand.Parameters.Add("@period", SqlDbType.Int).Value = period;
+
+            SqlParameter success = new SqlParameter();
+            success.Direction = ParameterDirection.ReturnValue;
+            da.SelectCommand.Parameters.Add(success);
+            try
+            {
+                da.SelectCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                MessageBox.Show("Error, something went wrong...");
+                ClearNumbers();
+                con.Close();
+                return 0;
+            }
+            if ((int)success.Value == 1)
+            {
+                MessageBox.Show("Error, something went wrong...");
+                ClearNumbers();
+                con.Close();
+                return 0;
+            }
+            MessageBox.Show("Instance added of course: " + cc);
+            con.Close();
             return 1;
         }
 
@@ -286,6 +317,39 @@ namespace DBLabs
          */
         public override int addStaff(string pnr, string cc, int year, int period, int hours)
         {
+            con.Open();
+            SqlDataAdapter da = new SqlDataAdapter("spAddStaff", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Add("@pnr", SqlDbType.VarChar).Value = pnr;
+            da.SelectCommand.Parameters.Add("@cc", SqlDbType.VarChar).Value = cc;
+            da.SelectCommand.Parameters.Add("@year", SqlDbType.Int).Value = year;
+            da.SelectCommand.Parameters.Add("@period", SqlDbType.Int).Value = period;
+            da.SelectCommand.Parameters.Add("@hours", SqlDbType.Int).Value = hours;
+
+            SqlParameter success = new SqlParameter();
+            success.Direction = ParameterDirection.ReturnValue;
+            da.SelectCommand.Parameters.Add(success);
+            try
+            {
+                da.SelectCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                MessageBox.Show("Error, something went wrong...");
+                ClearNumbers();
+                con.Close();
+                return 0;
+            }
+            if ((int)success.Value == 1)
+            {
+                MessageBox.Show("Error, something went wrong...");
+                ClearNumbers();
+                con.Close();
+                return 0;
+            }
+            MessageBox.Show("Staff " + pnr + " added");
+            con.Close();
             return 1;
         }
 
@@ -495,6 +559,7 @@ namespace DBLabs
         public override int getCourseCost(string cc, int year, int period)
         {
             //SCALAR FUNCTION THAT RETURNS ONLY ONE VALUE
+            ////NEED TO FIX CASTINGBUG
 
             var functionquery = $"Select dbo.Get_Course_Cost('{cc}', {year}, {period})";
             SqlCommand com = new SqlCommand(functionquery, con);
