@@ -347,6 +347,8 @@ namespace DBLabs
             {
                 Console.WriteLine(e);
                 Console.WriteLine("CATCHBLOCK");
+                con.Close();
+
                 return null;
             }
         }
@@ -378,6 +380,7 @@ namespace DBLabs
             {
                 Console.WriteLine(e);
                 Console.WriteLine("CATCHBLOCK");
+                con.Close();
                 return null;
             }
         }
@@ -411,6 +414,7 @@ namespace DBLabs
             {
                 Console.WriteLine(e);
                 Console.WriteLine("CATCHBLOCK");
+                con.Close();
                 return null;
             }
         }
@@ -444,6 +448,7 @@ namespace DBLabs
             {
                 Console.WriteLine(e);
                 Console.WriteLine("CATCHBLOCK");
+                con.Close();
                 return null;
             }
         }
@@ -460,8 +465,19 @@ namespace DBLabs
          */
         public override int getCourseCost(string cc, int year, int period)
         {
-            //Dummy code - Remove!
-            return 10000;
+            var com = new SqlCommand($"Select * from dbo.Get_Course_Cost({cc}, {year}, {period})");
+
+            con.Open();
+            com.Parameters.Add("@cc", SqlDbType.VarChar).Value = cc;
+            com.Parameters.Add("@year", SqlDbType.Int).Value = year;
+            com.Parameters.Add("@period", SqlDbType.Int).Value = period;
+
+            //SqlParameter ccParameter = new SqlParameter("@cc", SqlDbType.Int);
+            //SqlParameter yearParameter = new SqlParameter("@cc", SqlDbType.Int);
+            //SqlParameter  = new SqlParameter("@cc", SqlDbType.Int);
+
+            int cost = (int)com.ExecuteScalar();
+            return cost;
         }
 
         /*
@@ -478,10 +494,19 @@ namespace DBLabs
          */
         public override DataTable getCourseStaffing(string cc, string year, string period)
         {
-            //Dummy code - Remove!
-            DataTable dt = new DataTable();
-            return dt;
+            con.Open();
+            var functionquery = $"SELECT * FROM Get_Course_Staffing('{cc}', '{year}', '{period}')";
+            SqlCommand com = new SqlCommand(functionquery, con);
+            com.CommandType = CommandType.Text;
+            com.Parameters.Add("@cc", SqlDbType.VarChar).Value = cc;
+            com.Parameters.Add("@year", SqlDbType.VarChar).Value = year;
+            com.Parameters.Add("@period", SqlDbType.VarChar).Value = period;
 
+            SqlDataReader datareader = com.ExecuteReader();
+            DataTable datatable = new DataTable();
+            datatable.Load(datareader);
+            con.Close();
+            return datatable;
         }
 
         /*
@@ -496,9 +521,28 @@ namespace DBLabs
          */
         public override DataTable getStudentRecord(string studId)
         {
-            //Dummy code - Remove!
-            DataTable dt = new DataTable();
-            return dt;
+            con.Open();
+            var functionquery = $"SELECT * FROM Get_Student_Records({studId})";
+            SqlCommand com = new SqlCommand(functionquery, con);
+            com.CommandType = CommandType.Text;
+            com.Parameters.Add("@StudID", SqlDbType.VarChar).Value = studId;
+
+            SqlDataReader datareader = com.ExecuteReader();
+            DataTable datatable = new DataTable();
+            datatable.Load(datareader);
+            con.Close();
+            return datatable;
+
+
+
+
+            //Kurskod,
+            //Kursnamn,
+            //Antal poäng
+            //Kurstillfälle(år, period)
+            //Avslutad(Texten ”JA” skall visas om kursen är avslutad annars lämnas
+            //denna tom)
+            //Betyg
         }
 
         /*
@@ -513,13 +557,18 @@ namespace DBLabs
          */
         public override DataTable getPreReqs(string cc)
         {
-            //Dummy code - Remove!
-            //Please note that you do not use DataTables like this at all when you are using a database!!
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Course Code");
-            dt.Columns.Add("Course Name");
-            dt.Rows.Add("DVA111", "C# course");
-            return dt;
+
+            con.Open();
+            var functionquery = $"SELECT * FROM Get_Course_Prereq('{cc}')";
+            SqlCommand com = new SqlCommand(functionquery, con);
+            com.CommandType = CommandType.Text;
+            com.Parameters.Add("@cc", SqlDbType.VarChar).Value = cc;
+
+            SqlDataReader datareader = com.ExecuteReader();
+            DataTable datatable = new DataTable();
+            datatable.Load(datareader);
+            con.Close();
+            return datatable;
         }
 
 
