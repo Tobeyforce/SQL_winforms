@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
 using System.Data;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace DBLabs
@@ -60,6 +62,7 @@ namespace DBLabs
             }
             catch (Exception e)
             {
+                con.Close();
                 Console.WriteLine(e);
                 return null;
             }
@@ -80,6 +83,7 @@ namespace DBLabs
             }
             catch (Exception e)
             {
+                con.Close();
                 Console.WriteLine(e);
                 return null;
             }
@@ -248,7 +252,11 @@ namespace DBLabs
                 con.Close();
                 return 0;
             }
-            MessageBox.Show("Prerequisite course " + preReqcc + " added for " + cc);
+            else
+            {
+                MessageBox.Show("Prerequisite course " + preReqcc + " added for " + cc);
+
+            }
             con.Close();
             return 1;
         }
@@ -296,7 +304,10 @@ namespace DBLabs
                 con.Close();
                 return 0;
             }
-            MessageBox.Show("Instance added of course: " + cc);
+            else
+            {
+                MessageBox.Show("Instance added of course: " + cc);
+            }
             con.Close();
             return 1;
         }
@@ -348,7 +359,10 @@ namespace DBLabs
                 con.Close();
                 return 0;
             }
-            MessageBox.Show("Staff " + pnr + " added");
+            else
+            {
+                MessageBox.Show("Staff " + pnr + " added");
+            }
             con.Close();
             return 1;
         }
@@ -367,7 +381,7 @@ namespace DBLabs
          *              1           Labassistant staffing added
          *              Any other   Error
          */
-        public override int addLabass(string studid, string cc, int year, int period, int hours)
+        public override int addLabass(string studid, string cc, int year, int period, int hours, int salary)
         {
             con.Open();
             SqlDataAdapter da = new SqlDataAdapter("spAddLabbass", con);
@@ -377,6 +391,8 @@ namespace DBLabs
             da.SelectCommand.Parameters.Add("@year", SqlDbType.Int).Value = year;
             da.SelectCommand.Parameters.Add("@period", SqlDbType.Int).Value = period;
             da.SelectCommand.Parameters.Add("@hours", SqlDbType.Int).Value = hours;
+            da.SelectCommand.Parameters.Add("@salary", SqlDbType.Int).Value = salary;
+
 
             SqlParameter success = new SqlParameter();
             success.Direction = ParameterDirection.ReturnValue;
@@ -389,18 +405,19 @@ namespace DBLabs
             {
                 Console.WriteLine(e);
                 MessageBox.Show("Error, something went wrong...");
-                ClearNumbers();
                 con.Close();
                 return 0;
             }
             if ((int)success.Value == 1)
             {
                 MessageBox.Show("Error, something went wrong...");
-                ClearNumbers();
                 con.Close();
                 return 0;
             }
-            MessageBox.Show("Labbass " + studid + " added");
+            else
+            {
+                MessageBox.Show("Labbass " + studid + " added");
+            }
             con.Close();
             return 1;
         }
@@ -433,9 +450,9 @@ namespace DBLabs
             da.SelectCommand.Parameters.Add("@credits", SqlDbType.Float).Value = credits;
             da.SelectCommand.Parameters.Add("@responsible", SqlDbType.VarChar).Value = responsible;
 
-            SqlParameter success = new SqlParameter();
-            success.Direction = ParameterDirection.ReturnValue;
-            da.SelectCommand.Parameters.Add(success);
+            SqlParameter returnParam = da.SelectCommand.Parameters.Add("@Success", SqlDbType.Int);
+            returnParam.Direction = ParameterDirection.ReturnValue;
+            int Success;
             try
             {
                 da.SelectCommand.ExecuteNonQuery();
@@ -443,19 +460,17 @@ namespace DBLabs
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                MessageBox.Show("Error, something went wrong...");
-                ClearNumbers();
                 con.Close();
                 return 0;
             }
-            if ((int)success.Value == 1)
+            Success = (int)returnParam.Value;
+
+            if (Success == 1)
             {
-                MessageBox.Show("Error, something went wrong...");
-                ClearNumbers();
                 con.Close();
                 return 0;
             }
-            MessageBox.Show("Course " + name + " added");
+           
             con.Close();
             return 1;
         }
@@ -556,14 +571,12 @@ namespace DBLabs
          */
         public override DataTable getLabasses()
         {
-            //Dummy code - Remove!
-            //Please note that you do not use DataTables like this at all when you are using a database!!
+            DataTable dt = new DataTable();
             try
             {
                 con.Open();
-                string query = "select * from VwGetLabasses";
+                string query = "select * from VwGetLabb";
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
-                DataTable dt = new DataTable();
                 da.Fill(dt);
                 con.Close();
                 return dt;
@@ -632,10 +645,19 @@ namespace DBLabs
             com.Parameters.Add("@cc", SqlDbType.VarChar).Value = cc;
             com.Parameters.Add("@year", SqlDbType.Int).Value = year;
             com.Parameters.Add("@period", SqlDbType.Int).Value = period;
-            int cost = (int)com.ExecuteScalar();
-            con.Close();
 
-            return cost;
+            try
+            {
+                var cost  = (int)com.ExecuteScalar();
+                con.Close();
+                return cost;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                con.Close();
+                return 0;
+            }
         }
 
         /*
@@ -690,10 +712,10 @@ namespace DBLabs
             com.Parameters.Add("@StudID", SqlDbType.VarChar).Value = studId;
 
             SqlDataReader datareader = com.ExecuteReader();
-            DataTable datatable = new DataTable();
-            datatable.Load(datareader);
+            DataTable dt = new DataTable();
+            dt.Load(datareader);
             con.Close();
-            return datatable;
+            return dt;
 
         }
 
@@ -717,10 +739,10 @@ namespace DBLabs
             com.Parameters.Add("@cc", SqlDbType.VarChar).Value = cc;
 
             SqlDataReader datareader = com.ExecuteReader();
-            DataTable datatable = new DataTable();
-            datatable.Load(datareader);
+            DataTable dt = new DataTable();
+            dt.Load(datareader);
             con.Close();
-            return datatable;
+            return dt;
         }
 
 
@@ -777,7 +799,6 @@ namespace DBLabs
             datatable.Load(datareader);
             con.Close();
             return datatable;
-
         }
 
         /*

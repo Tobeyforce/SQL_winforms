@@ -177,6 +177,7 @@
             this.Text = "IDT Management System";
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
