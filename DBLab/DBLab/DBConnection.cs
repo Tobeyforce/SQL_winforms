@@ -367,8 +367,41 @@ namespace DBLabs
          *              1           Labassistant staffing added
          *              Any other   Error
          */
-        public override int addLabass(string studid, string cc, int year, int period, int hours, int salary)
+        public override int addLabass(string studid, string cc, int year, int period, int hours)
         {
+            con.Open();
+            SqlDataAdapter da = new SqlDataAdapter("spAddLabbass", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Add("@studid", SqlDbType.VarChar).Value = studid;
+            da.SelectCommand.Parameters.Add("@cc", SqlDbType.VarChar).Value = cc;
+            da.SelectCommand.Parameters.Add("@year", SqlDbType.Int).Value = year;
+            da.SelectCommand.Parameters.Add("@period", SqlDbType.Int).Value = period;
+            da.SelectCommand.Parameters.Add("@hours", SqlDbType.Int).Value = hours;
+
+            SqlParameter success = new SqlParameter();
+            success.Direction = ParameterDirection.ReturnValue;
+            da.SelectCommand.Parameters.Add(success);
+            try
+            {
+                da.SelectCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                MessageBox.Show("Error, something went wrong...");
+                ClearNumbers();
+                con.Close();
+                return 0;
+            }
+            if ((int)success.Value == 1)
+            {
+                MessageBox.Show("Error, something went wrong...");
+                ClearNumbers();
+                con.Close();
+                return 0;
+            }
+            MessageBox.Show("Labbass " + studid + " added");
+            con.Close();
             return 1;
         }
 
@@ -392,6 +425,38 @@ namespace DBLabs
         /// ////////////
         public override int addCourse(string cc, string name, double credits, string responsible)
         {
+            con.Open();
+            SqlDataAdapter da = new SqlDataAdapter("spAddCourse", con);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+            da.SelectCommand.Parameters.Add("@cc", SqlDbType.VarChar).Value = cc;
+            da.SelectCommand.Parameters.Add("@name", SqlDbType.VarChar).Value = name;
+            da.SelectCommand.Parameters.Add("@credits", SqlDbType.Float).Value = credits;
+            da.SelectCommand.Parameters.Add("@responsible", SqlDbType.VarChar).Value = responsible;
+
+            SqlParameter success = new SqlParameter();
+            success.Direction = ParameterDirection.ReturnValue;
+            da.SelectCommand.Parameters.Add(success);
+            try
+            {
+                da.SelectCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                MessageBox.Show("Error, something went wrong...");
+                ClearNumbers();
+                con.Close();
+                return 0;
+            }
+            if ((int)success.Value == 1)
+            {
+                MessageBox.Show("Error, something went wrong...");
+                ClearNumbers();
+                con.Close();
+                return 0;
+            }
+            MessageBox.Show("Course " + name + " added");
+            con.Close();
             return 1;
         }
 
